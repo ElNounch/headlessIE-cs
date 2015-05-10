@@ -27,6 +27,9 @@ THE SOFTWARE.
 using System;
 using System.Windows.Forms;
 
+[assembly:System.Reflection::AssemblyVersion("1.0.0.0")]
+//supportedRuntime
+
 public class HeadlessIe
 {
 	public static int Message() {
