@@ -10,18 +10,14 @@ function createRandomLocalAddress() {
     return '127.' + upTo(255) + '.' + upTo(255) + '.' + (upTo(252) + 2)
 }
 
-test('versions test', function (t) {
-    t.plan(2)
+test('version test', function (t) {
+    t.plan(1)
 
     child_process.execFile( 'bin/headlessIE.exe', [ '--version' ], function VersionRunner( err, stdout ) {
-        if( /^(\d+)(\.(\d+)){0,3}/.test( stdout ) ) {
-            t.pass( 'got assembly version : "' + stdout + '"' )
-        }
-    })
-
-    child_process.execFile( 'bin/headlessIE.exe', [ '--ie-version' ], function VersionRunner( err, stdout ) {
-        if( /^(\d+)(\.(\d+)){0,3}/.test( stdout ) ) {
-            t.pass( 'got IE version : "' + stdout + '"' )
+        if( /HeadlessIE (\d+)(\.(\d+)){0,3} \(Internet Explorer (\d+)(\.(\d+)){0,3}\)/g.test( stdout ) ) {
+            t.pass( 'version report : "' + stdout + '"' )
+        } else {
+            t.fail( 'wrong version report : "' + stdout + '"' )
         }
     })
 })

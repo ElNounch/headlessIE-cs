@@ -26,42 +26,48 @@ THE SOFTWARE.
 
 using System;
 using System.Windows.Forms;
+using System.Reflection;
 
-public class HeadlessIe
+namespace HeadlessIE
 {
-	public static int Message() {
-		Console.Write("This program takes an Uri as argument, open it headlessly and never quit.");
-		return -1;
-	}
-
-	[STAThread]
-	public static int Main(string[] args) {
-		if( (args == null) || (args.Length != 1) ) {
-			return Message();
-		}
-		if( (args[0] == "--help") || (args[0] == "-h") || (args[0] == "-?") || (args[0] == "/?") ) {
-			Message();
-			return 0;
+	public class Entrance
+	{
+		public static int Message() {
+			Console.Write("This program takes an Uri as argument, open it headlessly and never quit.");
+			return -1;
 		}
 
-		WebBrowser wb = new WebBrowser();
-		if( args[0] == "--version" ) {
-			Console.Write( wb.Version.ToString() );
-			return 0;
-		}
+		[STAThread]
+		public static int Main(string[] args) {
+			if( (args == null) || (args.Length != 1) ) {
+				return Message();
+			}
+			if( (args[0] == "--help") || (args[0] == "-h") || (args[0] == "-?") || (args[0] == "/?") ) {
+				Message();
+				return 0;
+			}
 
-		Uri dest;
-		try {
-			dest = new Uri( args[0] );
-		} catch (Exception e) {
-			return Message();
-		}
+			WebBrowser wb = new WebBrowser();
+			if( args[0] == "--version" ) {
+				string version = Assembly.GetEntryAssembly().GetName().Version.ToString();
+				string IEversion = wb.Version.ToString();
+				Console.Write( "HeadlessIE {0} (Internet Explorer {1})", version, IEversion );
+				return 0;
+			}
 
-		if( !dest.IsWellFormedOriginalString() ) {
-			return Message();
+			Uri dest;
+			try {
+				dest = new Uri( args[0] );
+			} catch ( UriFormatException ) {
+				return Message();
+			}
+
+			if( !dest.IsWellFormedOriginalString() ) {
+				return Message();
+			}
+			wb.Url = dest;
+			Application.Run();
+			return 1;
 		}
-		wb.Url = dest;
-		Application.Run();
-		return 1;
 	}
 }
