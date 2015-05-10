@@ -23,10 +23,6 @@ test_script:
   # run tests
   - node test/base.js | tap-spec
 
-# Don't actually build.
-build_script:
- - build.cmd
-
 # Caching npm parts
 cache:
   - C:\Users\appveyor\AppData\Roaming\npm\node_modules -> appveyor.yml  # global npm modules
