@@ -9,37 +9,23 @@ function createRandomLocalAddress() {
     }
     return '127.' + upTo(255) + '.' + upTo(255) + '.' + (upTo(252) + 2)
 }
-/*
-test('return values test', function (t) {
+
+test('versions test', function (t) {
     t.plan(2)
 
-    t.test('version', function(tV) {
-        tV.plan(1)
-        headlessIE.version( function(err,reported_version) {
-            if( err ) {
-                tV.fail( 'problem while looking for version : ' + err )
-            } else {
-                tV.ok( typeof reported_version === 'string', 'version returned a string : "' + reported_version + '"' )
-            }
-        })
+    child_process.execFile( 'bin/headlessIE.exe', [ '--version' ], function VersionRunner( err, stdout ) {
+        if( /^(\d+)(\.(\d+)){0,3}/.test( stdout ) ) {
+            t.pass( 'got assembly version : "' + stdout + '"' )
+        }
     })
 
-    t.test('command', function(tC) {
-        headlessIE.command( function( err, reported_cmd ) {
-            if( err ) {
-                tC.fail( 'problem while looking for path : ' + err )
-                tC.end()
-            } else {
-                fs.stat( reported_cmd, function( err, stat ) {
-                    tC.ok( stat, 'path exist...' )
-                    tC.ok( stat.isFile(), '... and is a file' )
-                    tC.end()
-                })
-            }
-        })
+    child_process.execFile( 'bin/headlessIE.exe', [ '--ie-version' ], function VersionRunner( err, stdout ) {
+        if( /^(\d+)(\.(\d+)){0,3}/.test( stdout ) ) {
+            t.pass( 'got IE version : "' + stdout + '"' )
+        }
     })
 })
-*/
+
 test('functionnal test', { timeout: 30000 }, function (t) {
     var app = express()
     var server
