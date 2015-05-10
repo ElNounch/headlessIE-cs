@@ -9,7 +9,7 @@ assembly_info:
 
 # Install scripts. (runs after repo cloning)
 install:
-  # Update npm itself
+  # Update npm itself.
   - npm install -g npm
 
 before_test:
@@ -20,14 +20,10 @@ before_test:
 
 # Post-install test scripts.
 test_script:
-  # run tests
+  # Run tests.
   - node test/base.js | tap-spec
 
-# Don't actually build.
-build_script:
- - build.cmd
-
-# Caching npm parts
+# Caching npm parts.
 cache:
   - C:\Users\appveyor\AppData\Roaming\npm\node_modules -> appveyor.yml  # global npm modules
   - C:\Users\appveyor\AppData\Roaming\npm-cache -> appveyor.yml         # npm cache

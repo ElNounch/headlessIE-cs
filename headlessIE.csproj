@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <AssemblyName>headlessIE</AssemblyName>
+    <InputPath>src\</InputPath>
+    <OutputPath>bin\</OutputPath>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(InputPath)*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Dll" />
+    <Reference Include="System.Windows.Forms.Dll" />
+  </ItemGroup>
+  <Target Name="Build" Inputs="@(Compile);headlessIE.csproj" Outputs="$(OutputPath)$(AssemblyName).exe">
+    <MakeDir Directories="$(OutputPath)" Condition="!Exists('$(OutputPath)')" />
+    <Csc Sources="@(Compile)" OutputAssembly="$(OutputPath)$(AssemblyName).exe"
+        NoConfig="True" References="@(Reference)"
+        TargetType="Exe" />
+  </Target>
+  <Target Name="Clean">
+    <Delete Files="$(OutputPath)$(AssemblyName).exe" />
+  </Target>
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
+</Project>
