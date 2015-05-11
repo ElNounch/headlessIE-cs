@@ -5,7 +5,7 @@ assembly_info:
   file: src\headlessIE.cs
   assembly_version: '{version}'
   assembly_file_version: '{version}'
-  assembly_informational_version: '{version}-rc1'
+  assembly_informational_version: '{version}'
 
 # Install scripts. (runs after repo cloning)
 install:
@@ -23,8 +23,24 @@ test_script:
   # run tests
   - node test/base.js | tap-spec
 
+after_build:
+  - cd %APPVEYOR_BUILD_FOLDER%\bin && 7z a ..\headlessIE-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\bin\headlessIE.exe
+
 # Caching npm parts
 cache:
   - C:\Users\appveyor\AppData\Roaming\npm\node_modules -> appveyor.yml  # global npm modules
   - C:\Users\appveyor\AppData\Roaming\npm-cache -> appveyor.yml         # npm cache
   - node_modules -> appveyor.yml                                        # local npm modules
+
+artifacts:
+  - path: headlessIE-$(APPVEYOR_BUILD_VERSION).zip
+    name: HeadlessIE
+    type: zip
+
+deploy:
+  - provider: FTP
+    host: dl.free.fr
+    username:
+      secure: ukFGKeaeBTM48K8mUocLCwyzIcyso5l/Dny7N88eEoc=
+    password:
+      secure: ukFGKeaeBTM48K8mUocLCwyzIcyso5l/Dny7N88eEoc=
