@@ -24,13 +24,13 @@ test_script:
   - node test/base.js | tap-spec
 
 after_build:
-  - cd %APPVEYOR_BUILD_FOLDER%\bin && 7z a ..\headlessIE-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\bin\headlessIE.exe
+  - 7z a headlessIE-%APPVEYOR_BUILD_VERSION%.zip .\bin\headlessIE.exe
 
 # Caching npm parts
 cache:
-  - C:\Users\appveyor\AppData\Roaming\npm\node_modules -> appveyor.yml  # global npm modules
-  - C:\Users\appveyor\AppData\Roaming\npm-cache -> appveyor.yml         # npm cache
-  - node_modules -> appveyor.yml                                        # local npm modules
+  - C:\Users\appveyor\AppData\Roaming\npm\node_modules -> package.json  # global npm modules
+  - C:\Users\appveyor\AppData\Roaming\npm-cache -> package.json         # npm cache
+  - node_modules -> package.json                                        # local npm modules
 
 artifacts:
   - path: headlessIE-$(APPVEYOR_BUILD_VERSION).zip
