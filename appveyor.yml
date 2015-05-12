@@ -36,11 +36,3 @@ artifacts:
   - path: headlessIE-$(APPVEYOR_BUILD_VERSION).zip
     name: HeadlessIE
     type: zip
-
-deploy:
-  - provider: FTP
-    host: dl.free.fr
-    username:
-      secure: ukFGKeaeBTM48K8mUocLCwyzIcyso5l/Dny7N88eEoc=
-    password:
-      secure: ukFGKeaeBTM48K8mUocLCwyzIcyso5l/Dny7N88eEoc=
